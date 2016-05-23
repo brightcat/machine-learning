@@ -32,12 +32,12 @@ public class LinearRegression implements Functions {
     }
 
     @Override
-    public Matrix grad(Matrix X, Matrix y, Matrix h) {
+    public Matrix grad(final double alpha, final Matrix X, final Matrix y, final Matrix h) {
         final int m = y.m();
         final Matrix minus = ops.minus(h, y);
         final Matrix Xt = ops.transpose(X);
         final Matrix dot = ops.dot(Xt, minus);
-        return ops.map(dot, x -> x / m);
+        return ops.map(dot, x -> alpha * x / m);
     }
 
     @Override

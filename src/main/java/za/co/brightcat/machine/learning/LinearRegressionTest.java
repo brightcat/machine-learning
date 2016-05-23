@@ -1,7 +1,6 @@
 package za.co.brightcat.machine.learning;
 
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -23,7 +22,7 @@ public class LinearRegressionTest {
     }
     
     private double[][] getData() throws IOException {
-        final String filename = this.getClass().getResource("lrdata.txt").getPath();//"/home/anton/coursera/ml/machine-learning-ex1/ex1/ex1data1.txt";
+        final String filename = this.getClass().getResource("lrdata.txt").getPath();
         List<String> lines = Files.readAllLines(Paths.get(filename));
         final double[][] data = lines.stream()
                 .map(l -> l.split(","))
@@ -70,7 +69,7 @@ public class LinearRegressionTest {
         
         final LinearRegression lr = new LinearRegression(matrixOps, matrixUtil);
         
-        final Matrix t = gradientDescent.train(lr, X, y);
+        final Matrix t = gradientDescent.train(lr, X, y, 0.01, 1500);
         
         matrixUtil.print(t);
         
@@ -80,12 +79,13 @@ public class LinearRegressionTest {
         Matrix test2 = matrixUtil.create(new double[] { 1., 7 }, 1, 2);
         Matrix res2 = matrixOps.map(matrixOps.dot(test2, t), x -> x * 10000);
         matrixUtil.print(res2);
+//        if (true) return;
         
-        final double[][] randomData = ctx.randomData(10);
+        final double[][] randomData = ctx.randomData(24);
         final Matrix randomX = ctx.x(randomData);
         final Matrix randomy = ctx.y(randomData);
         
-        final Matrix randomTheta = gradientDescent.train(lr, randomX, randomy);
+        final Matrix randomTheta = gradientDescent.train(lr, randomX, randomy, 0.01, 1500);
         
         matrixUtil.print(randomTheta);
         
